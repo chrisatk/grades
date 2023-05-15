@@ -39,4 +39,11 @@ class Student {
   }
 
 
+  public function getAverage() {
+    // find the average
+
+    return $average;
+  }
+
+
 }

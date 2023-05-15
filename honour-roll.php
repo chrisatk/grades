@@ -86,7 +86,9 @@ require_once( __DIR__ . '/Classes/MyClasses/autoloader.php' );
 // This line doesn't work yet.
 //                $student_list[$student_number]->addCourse($course,$section,$mark);
 
-                echo "<p>".$student_number." - ".$course."</p>\n";
+              }
+              foreach ( $student_list as $student ) {
+                echo "<p>".$student_number.": ".$student->getAverage()."</p>\n";
               }
 
 
