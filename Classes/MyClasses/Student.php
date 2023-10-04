@@ -3,17 +3,24 @@ require_once ( __DIR__ . '/../vendor/autoload.php' );
 
 class Student {
 
+  private $name;
   private $student_number;
   private $grade;
   private $course_list = array();
-  private $mark_list = array();
 
   // Consructor
   // param: $sn: Integer
   // param: $grade: Integer
-  public function __construct( $sn, $grade ) {
+  public function __construct( $student, $sn, $grade ) {
+    $this->name = $student;
     $this->student_number = $sn;
     $this->grade = $grade;
+  }
+
+
+  // Returns student name
+  public function getStudentName() {
+    return $this->name;
   }
 
 
@@ -33,16 +40,36 @@ class Student {
   // param: $course_code: String
   // param: $section_number: Integer
   // param: $mark: Integer
-  public function addCourse( $course_code, $section, $mark ) {
-    array_push ( $this->course_list, $course_code."-".$section );
-    array_push ( $this->mark_list, $mark );
+  public function addCourse( $course_code, $section, $mark, $credit_count ) {
+    array_push ( $this->course_list, array( $course_code."-".$section, $mark, $credit_count ) );
   }
 
 
   public function getAverage() {
     // find the average
+    $course_list = array_filter($this->course_list);
 
-    return $average;
+    $mark_sum = 0;
+    $credit_sum = 0;
+    for ( $i = 0; $i < count($course_list); $i++ ) {
+      $mark_sum += $course_list[$i][1] * $course_list[$i][2];
+      $credit_sum += $course_list[$i][2];
+    }
+
+    return round( $mark_sum / $credit_sum, 2 );
+
+  }
+
+  public function getCourseList() {
+    $course_list = array_filter($this->course_list);
+
+    $result = "";
+    for ( $i = 0; $i < count($course_list); $i++ ) {
+      $result = $result . $course_list[$i][0]." | ".$course_list[$i][1]." | ".$course_list[$i][2]."<br />";
+    }
+
+    return $result;
+
   }
 
 

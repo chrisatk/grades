@@ -67,30 +67,42 @@ require_once( __DIR__ . '/Classes/MyClasses/autoloader.php' );
               $sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
               $rowCount = $objPHPExcel->getActiveSheet()->getHighestRow();
 
+              $student_index = array_search("Student", $sheetData[1]);
               $student_number_index = array_search("StdntNo",$sheetData[1]);
               $course_index = array_search("Course",$sheetData[1]);
-              $grade_index = array_search("Gr",$sheetData[1]);
+              $grade_index = array_search("Grade",$sheetData[1]);
+              $section_index = array_search("Sec",$sheetData[1]);
+              $mark_index = array_search("Mark",$sheetData[1]);
+              $store_code_index = array_search("Storecode",$sheetData[1]);
+              $credit_count_index = array_search("CreditEarned",$sheetData[1]);
 
               $student_list = array();
 
               for ($i = 2; $i < (count($sheetData)+1); $i++) {
+                $student = $sheetData[$i][$student_index];
                 $student_number = $sheetData[$i][$student_number_index];
                 $course = $sheetData[$i][$course_index];
                 $grade = $sheetData[$i][$grade_index];
+                $section = $sheetData[$i][$section_index];
+                $mark = $sheetData[$i][$mark_index];
+                $store_code = $sheetData[$i][$section_index];
+                $credit_count = $sheetData[$i][$credit_count_index];
 
                 // If the student does not yet exist, then create a new one
-                $student = "";
-                if ( !isset( $student_list[$student_number] ) ) {
-                  $student = new Student( $student_number, $grade );
+                if ( !isset( $student_list[$student_number] ) && $student_number > 0 ) {
+                  $student_list[$student_number] = new Student( $student, $student_number, $grade );
                 }
-// This line doesn't work yet.
-//                $student_list[$student_number]->addCourse($course,$section,$mark);
+                $student_list[$student_number]->addCourse($course,$section,$mark,$credit_count);
 
               }
+              echo "<table class=\"mdl-data-table mdl-js-data-table mdl-shadow--2dp\">\n";
+              echo "<tbody>\n";
+              echo "<tr><th>Student</th><th>Grade</th><th>Average</th><th>Courses Considered</th></tr>\n";
               foreach ( $student_list as $student ) {
-                echo "<p>".$student_number.": ".$student->getAverage()."</p>\n";
+                echo "<tr><td class=\"mdl-data-table__cell--non-numeric\">".$student->getStudentName()."<br />(".$student->getStudentNumber().")</td><td>".$student->getStudentGrade()."</td><td>".$student->getAverage()."</td><td class=\"mdl-data-table__cell--non-numeric\">".$student->getCourseList()."</td></tr>\n";
               }
-
+              echo "</tbody>\n";
+              echo "</table>\n";
 
             } else {
 

@@ -57,14 +57,6 @@ require_once( __DIR__ . '/Classes/MyClasses/autoloader.php' );
 
                 <br />
 
-                <div>
-                  <a href="task2.php"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
-                    Task 2
-                  </button></a>
-                </div>
-
-                <br />
-
           </div>
         </div>
 
