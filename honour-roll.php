@@ -33,6 +33,8 @@ require_once( __DIR__ . '/Classes/MyClasses/autoloader.php' );
       z-index: 900;
     }
     </style>
+    <!-- sortable headers in tables -->
+    <script src="js/sorttable.js"></script>
   </head>
   <body>
     <div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
@@ -70,7 +72,7 @@ require_once( __DIR__ . '/Classes/MyClasses/autoloader.php' );
               $student_index = array_search("Student", $sheetData[1]);
               $student_number_index = array_search("StdntNo",$sheetData[1]);
               $course_index = array_search("Course",$sheetData[1]);
-              $grade_index = array_search("Grade",$sheetData[1]);
+              $grade_index = array_search("Gr",$sheetData[1]);
               $section_index = array_search("Sec",$sheetData[1]);
               $mark_index = array_search("Mark",$sheetData[1]);
               $store_code_index = array_search("Storecode",$sheetData[1]);
@@ -95,7 +97,7 @@ require_once( __DIR__ . '/Classes/MyClasses/autoloader.php' );
                 $student_list[$student_number]->addCourse($course,$section,$mark,$credit_count);
 
               }
-              echo "<table class=\"mdl-data-table mdl-js-data-table mdl-shadow--2dp\">\n";
+              echo "<table class=\"mdl-data-table mdl-js-data-table mdl-shadow--2dp sortable\">\n";
               echo "<tbody>\n";
               echo "<tr><th>Student</th><th>Grade</th><th>Average</th><th>Courses Considered</th></tr>\n";
               foreach ( $student_list as $student ) {

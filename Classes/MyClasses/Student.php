@@ -52,11 +52,19 @@ class Student {
     $mark_sum = 0;
     $credit_sum = 0;
     for ( $i = 0; $i < count($course_list); $i++ ) {
-      $mark_sum += $course_list[$i][1] * $course_list[$i][2];
-      $credit_sum += $course_list[$i][2];
+      if ( $course_list[$i][2] === 0 ) { // Change failed courses to a full credit for weighting average
+        $course_list[$i][2] = 1;
+      }
+      if ( is_numeric( $course_list[$i][1] ) ) {
+        $mark_sum += $course_list[$i][1] * $course_list[$i][2];
+        $credit_sum += $course_list[$i][2];
+      }
     }
-
-    return round( $mark_sum / $credit_sum, 2 );
+    if ( $credit_sum > 0 ) {
+      return round( $mark_sum / $credit_sum, 2 );
+    } else {
+      return 0;
+    }
 
   }
 
